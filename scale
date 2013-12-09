@@ -1,0 +1,30 @@
+public class Scale extends Processor {
+
+    /** Scaling factor */
+    private double factor;
+
+    /**
+     * Sets the scaling factor.
+     */
+    public void setFactor(double facror) {
+        this.factor = facror;
+    }
+
+    /**
+     * Creates a scaling image processor with a specified factor.
+     */
+    public Scale(double factor) {
+        setFactor(factor);
+    }
+
+    @Override
+    public BufferedImage process(BufferedImage image) {
+        AffineTransform transform = AffineTransform.getScaleInstance(factor,
+                factor);
+        BufferedImageOp op = new AffineTransformOp(transform,
+                AffineTransformOp.TYPE_BILINEAR);
+
+        return op.filter(image, null);
+    }
+
+}
