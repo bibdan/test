@@ -1,0 +1,46 @@
+public class Roughen extends Processor {
+
+    /** Maximum roughening deviation, 1 to 255. */
+    private double deviation;
+
+    /**
+     * Sets the roughening deviation.
+     */
+    public void setDeviation(double deviation) {
+        this.deviation = deviation;
+    }
+
+    /**
+     * Creates a roughening image processor with a maximum deviation.
+     */
+    public Roughen(double deviation) {
+        setDeviation(deviation);
+    }
+
+    @Override
+    public BufferedImage process(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        // Copy image to output
+        BufferedImage output = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_BGR);
+        Graphics graphics = output.getGraphics();
+        graphics.drawImage(image, 0, 0, width, height, null);
+        graphics.dispose();
+
+        // Go through each pixel
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int change = (int) ((Math.random() - 0.5) * 2.0 * deviation);
+                Color color = new Color(output.getRGB(i, j));
+                int r = clipColorComponent(color.getRed() + change);
+                int g = clipColorComponent(color.getGreen() + change);
+                int b = clipColorComponent(color.getBlue() + change);
+                Color newColor = new Color(r, g, b);
+                output.setRGB(i, j, newColor.getRGB());
+            }
+        }
+
+        return output;
+    }
+}
