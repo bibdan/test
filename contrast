@@ -1,0 +1,30 @@
+public class Contrast extends Processor {
+
+    /**
+     * Contrast factor; it is < 1.0 for poorer contrast and > 1.0 for better
+     * contrast
+     */
+    private double factor;
+
+    /**
+     * Sets the contrast factor.
+     */
+    public void setFactor(double facror) {
+        this.factor = facror;
+    }
+
+    /**
+     * Creates a contrast image processor with a specified factor.
+     */
+    public Contrast(double factor) {
+        setFactor(factor);
+    }
+
+    @Override
+    public BufferedImage process(BufferedImage image) {
+        double offset = 127.0 - 127.0 * factor;
+        BufferedImageOp op = new RescaleOp((float) factor, (float) offset, null);
+        return op.filter(image, null);
+    }
+
+}
