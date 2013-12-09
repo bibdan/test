@@ -1,0 +1,16 @@
+public class Sharpen extends Processor {
+
+    @Override
+    public BufferedImage process(BufferedImage image) {
+        // @formatter:off
+        float[] kernel = {
+                 0.0f, -1.0f,  0.0f,
+                -1.0f,  5.0f, -1.0f,
+                 0.0f, -1.0f,  0.0f
+        }; // @formatter:on
+
+        BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, kernel));
+        return op.filter(image, null);
+    }
+
+}
